@@ -4,7 +4,7 @@
 
 ## Usage
 ```lua
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Nopparatz1238/Auto.Script-build-a-zoo/refs/heads/main/main.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/kayakayakay/AutoScript.build-a-zoo/refs/heads/main/main.lua"))()
 ```
 
 ### Libraries
