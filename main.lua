@@ -2,7 +2,7 @@ local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/
 
 -- Criar janela principal
 local Window = Fluent:CreateWindow({
-    Title = "Lugangelo",
+    Title = "Lugangelo ",
     SubTitle = "| Build a zoo",
     TabWidth = 160,
     Size = UDim2.fromOffset(580, 460),
@@ -48,7 +48,7 @@ local stateToggle = false -- Estado do toggle
 local selectFruit = {} -- Lista de frutas selecionadas
 
 local Dropdown = Tabs.Main:AddDropdown("Dropdown", {
-    Title = "Selecione os alimentos para comprar",
+    Title = "Selecione a comida desejada",
     Values = { -- Lista de frutas disponíveis (adicione mais se necessário)
         "Strawberry", "Blueberry", "Watermelon", "Apple", "Orange", "Corn", "Banana", "Grape", "Pear", "Pineapple",
         "DragonFruit", "GoldMango", "BloodstoneCycad", "ColossalPinecone", "VoltGinkgo", "DeepseaPearlFruit", "Durian"
