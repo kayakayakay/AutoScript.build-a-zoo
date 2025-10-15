@@ -1,9 +1,15 @@
+--[[
+    Script UI: Lugangelo | Build a Zoo
+    Compatível com todas as versões da Fluent UI
+]] 
+
+-- Importar biblioteca Fluent
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 
 -- Criar janela principal
 local Window = Fluent:CreateWindow({
-    Title = "Lugangelo ",
-    SubTitle = "| Build a zoo",
+    Title = "Lugangelo",
+    SubTitle = "| Build a Zoo",
     TabWidth = 160,
     Size = UDim2.fromOffset(580, 460),
     Acrylic = false,
@@ -11,7 +17,7 @@ local Window = Fluent:CreateWindow({
     MinimizeKey = Enum.KeyCode.LeftControl
 })
 
--- Criar aba
+-- Criar aba principal
 local Tabs = {
     Main = Window:AddTab({
         Title = "Principal",
@@ -19,16 +25,19 @@ local Tabs = {
     })
 }
 
--- Alternância de coleta automática
+------------------------------------------------------------
+-- 🔹 Alternância de coleta automática
+------------------------------------------------------------
+local Autocollect = false
 local CollectToggle = Tabs.Main:AddToggle("CollectToggle", {
     Title = "Coletar moedas automaticamente",
     Default = false
 })
 
--- Auto Coletar
-local Autocollect = false
-CollectToggle:OnChanged(function(state)
+local function handleCollectToggle(state)
     Autocollect = state
+    print("[DEBUG] Coleta automática:", state)
+
     if Autocollect then
         task.spawn(function()
             while Autocollect do
@@ -41,41 +50,56 @@ CollectToggle:OnChanged(function(state)
             end
         end)
     end
-end)
+end
 
--- Comprar frutas automaticamente
-local stateToggle = false -- Estado do toggle
+if CollectToggle.OnChanged then
+    CollectToggle:OnChanged(handleCollectToggle)
+else
+    CollectToggle.Callback = handleCollectToggle
+end
+
+------------------------------------------------------------
+-- 🔹 Sistema de compra automática de frutas
+------------------------------------------------------------
 local selectFruit = {} -- Lista de frutas selecionadas
 
 local Dropdown = Tabs.Main:AddDropdown("Dropdown", {
     Title = "Selecione a comida desejada",
-    Values = { -- Lista de frutas disponíveis (adicione mais se necessário)
-        "Strawberry", "Blueberry", "Watermelon", "Apple", "Orange", "Corn", "Banana", "Grape", "Pear", "Pineapple",
-        "DragonFruit", "GoldMango", "BloodstoneCycad", "ColossalPinecone", "VoltGinkgo", "DeepseaPearlFruit", "Durian"
+    Values = {
+        "Strawberry", "Blueberry", "Watermelon", "Apple", "Orange",
+        "Corn", "Banana", "Grape", "Pear", "Pineapple",
+        "DragonFruit", "GoldMango", "BloodstoneCycad", "ColossalPinecone",
+        "VoltGinkgo", "DeepseaPearlFruit", "Durian"
     },
     Multi = true,
-    Default = {
-        Strawberry = true
-    }
+    Default = { Strawberry = true }
 })
 
-Dropdown:SetValue({
-    Strawberry = true
-})
+Dropdown:SetValue({ Strawberry = true })
 
-Dropdown:OnChanged(function(Value)
+local function handleDropdownChange(Value)
     selectFruit = Value
-end)
+    print("[DEBUG] Frutas selecionadas:", Value)
+end
 
--- Alternância de compra automática
+if Dropdown.OnChanged then
+    Dropdown:OnChanged(handleDropdownChange)
+else
+    Dropdown.Callback = handleDropdownChange
+end
+
+------------------------------------------------------------
+-- 🔹 Alternância de compra automática
+------------------------------------------------------------
+local stateBuyToggle = false
 local autoBuyToggle = Tabs.Main:AddToggle("autoBuyToggles", {
     Title = "Comprar alimentos automaticamente",
     Default = false
 })
 
-local stateBuyToggle = false -- Estado do toggle
-autoBuyToggle:OnChanged(function(state)
+local function handleAutoBuyToggle(state)
     stateBuyToggle = state
+    print("[DEBUG] Compra automática:", state)
 
     if stateBuyToggle then
         if selectFruit and next(selectFruit) ~= nil then
@@ -91,9 +115,15 @@ autoBuyToggle:OnChanged(function(state)
                 end
             end)
         else
-            print("Por favor, selecione uma fruta primeiro.") -- Idealmente usar uma notificação
+            warn("[Aviso] Nenhuma fruta selecionada para compra automática.")
         end
     else
         stateBuyToggle = false
     end
-end)
+end
+
+if autoBuyToggle.OnChanged then
+    autoBuyToggle:OnChanged(handleAutoBuyToggle)
+else
+    autoBuyToggle.Callback = handleAutoBuyToggle
+end
