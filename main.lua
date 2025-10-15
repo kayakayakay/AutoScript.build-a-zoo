@@ -1,15 +1,9 @@
---[[
-    @author https://github.com/Nopparatz123
-    @library by https://forgenet.gitbook.io/fluent-documentation/
-]] 
-    
--- Import library
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 
--- Create FrameWindow
+-- Criar janela principal
 local Window = Fluent:CreateWindow({
-    Title = "Syrup ",
-    SubTitle = "| Bulid a zoo",
+    Title = "Lugangelo",
+    SubTitle = "| Build a zoo",
     TabWidth = 160,
     Size = UDim2.fromOffset(580, 460),
     Acrylic = true,
@@ -17,20 +11,21 @@ local Window = Fluent:CreateWindow({
     MinimizeKey = Enum.KeyCode.LeftControl
 })
 
--- Create TabMenu
+-- Criar aba
 local Tabs = {
     Main = Window:AddTab({
-        Title = "Main",
+        Title = "Principal",
         Icon = ""
     })
 }
--- CollectToggle UI
-local CollectToggle = Tabs.Main:AddToggle("CollectToggle ", {
-    Title = "เก็บเหรียญอัตโนมัติ",
+
+-- Alternância de coleta automática
+local CollectToggle = Tabs.Main:AddToggle("CollectToggle", {
+    Title = "Coletar moedas automaticamente",
     Default = false
 })
 
--- Auto Collect
+-- Auto Coletar
 local Autocollect = false
 CollectToggle:OnChanged(function(state)
     Autocollect = state
@@ -48,34 +43,37 @@ CollectToggle:OnChanged(function(state)
     end
 end)
 
--- Auto Buy Fruit
-local stateToggle = false -- สถานะToggle
-local selectFruit = {} -- Data Table List Fruit
+-- Comprar frutas automaticamente
+local stateToggle = false -- Estado do toggle
+local selectFruit = {} -- Lista de frutas selecionadas
 
 local Dropdown = Tabs.Main:AddDropdown("Dropdown", {
-    Title = "เลือกอาหารที่ซื้อ",
-    Values = { -- Table List อาหาร ถ้ามีเพิ่มใส่ต่อDurian
-    "Strawberry", "Blueberry", "Watermelon", "Apple", "Orange", "Corn", "Banana", "Grape", "Pear", "Pineapple",
-    "DragonFruit", "GoldMango", "BloodstoneCycad", "ColossalPinecone", "VoltGinkgo", "DeepseaPearlFruit", "Durian"},
+    Title = "Selecione os alimentos para comprar",
+    Values = { -- Lista de frutas disponíveis (adicione mais se necessário)
+        "Strawberry", "Blueberry", "Watermelon", "Apple", "Orange", "Corn", "Banana", "Grape", "Pear", "Pineapple",
+        "DragonFruit", "GoldMango", "BloodstoneCycad", "ColossalPinecone", "VoltGinkgo", "DeepseaPearlFruit", "Durian"
+    },
     Multi = true,
     Default = {
         Strawberry = true
     }
 })
+
 Dropdown:SetValue({
     Strawberry = true
 })
+
 Dropdown:OnChanged(function(Value)
     selectFruit = Value
 end)
 
--- autoBuy Toggle UI
+-- Alternância de compra automática
 local autoBuyToggle = Tabs.Main:AddToggle("autoBuyToggles", {
-    Title = "ซื้ออาหารอัตโนมัติ",
+    Title = "Comprar alimentos automaticamente",
     Default = false
 })
 
-local stateBuyToggle = false -- สถานะ toggle
+local stateBuyToggle = false -- Estado do toggle
 autoBuyToggle:OnChanged(function(state)
     stateBuyToggle = state
 
@@ -93,7 +91,7 @@ autoBuyToggle:OnChanged(function(state)
                 end
             end)
         else
-            print("กรุณาเลือกไม้ผล") -- จริงๆควรใส่เป็นNotification
+            print("Por favor, selecione uma fruta primeiro.") -- Idealmente usar uma notificação
         end
     else
         stateBuyToggle = false
