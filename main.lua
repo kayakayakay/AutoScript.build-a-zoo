@@ -8,7 +8,7 @@ local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/
 
 -- Criar janela principal
 local Window = Fluent:CreateWindow({
-    Title = "Lugangelo",
+    Title = "Lugangelo ",
     SubTitle = "| Build a Zoo",
     TabWidth = 160,
     Size = UDim2.fromOffset(580, 460),
