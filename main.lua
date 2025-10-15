@@ -7,7 +7,7 @@ local Window = Fluent:CreateWindow({
     TabWidth = 160,
     Size = UDim2.fromOffset(580, 460),
     Acrylic = false,
-    Theme = "Dark",
+    Theme = "Amethyst",
     MinimizeKey = Enum.KeyCode.LeftControl
 })
 
@@ -66,17 +66,6 @@ Dropdown:SetValue({
 Dropdown:OnChanged(function(Value)
     selectFruit = Value
 end)
-
-local Colorpicker = Tabs.Main:AddColorpicker("Colorpicker", {
-        Title = "Colorpicker",
-        Default = Color3.fromRGB(96, 205, 255)
-    })
-
-    Colorpicker:OnChanged(function()
-        print("Colorpicker changed:", Colorpicker.Value)
-    end)
-    
-    Colorpicker:SetValueRGB(Color3.fromRGB(0, 255, 140))
 
 -- Alternância de compra automática
 local autoBuyToggle = Tabs.Main:AddToggle("autoBuyToggles", {
